@@ -1,10 +1,13 @@
 import React from "react";
 import MainLayout from "./components/MainLayout";
+import { StoresProvider, stores } from "./stores";
 
 function App() {
   return (
     <>
-      <MainLayout />
+      <StoresProvider value={stores}>
+        <MainLayout />
+      </StoresProvider>
     </>
   );
 }
