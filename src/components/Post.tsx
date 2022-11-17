@@ -20,7 +20,9 @@ const Post = ({ author, timestamp, message, avatar }: IPostProps) => {
           </Typography>
         </Box>
       </Box>
-      <Typography sx={{ margin: 1 }}>{message}</Typography>
+      <Typography sx={{ margin: 1, whiteSpace: "pre-wrap" }}>
+        {message}
+      </Typography>
     </Paper>
   );
 };

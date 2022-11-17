@@ -1,7 +1,7 @@
 import { Box, TextField, Avatar, IconButton, Paper } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { useStore } from "../stores";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 const SubmitPostBox = () => {
   const store = useStore("mainStore");
@@ -11,7 +11,12 @@ const SubmitPostBox = () => {
     setMessage(e.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (
+    e:
+      | FormEvent<HTMLFormElement>
+      | React.MouseEvent<HTMLButtonElement, MouseEvent>
+      | React.KeyboardEvent<HTMLDivElement>
+  ) => {
     if (!message) return;
     store.sendMessage(message.trim());
     setMessage("");
@@ -34,7 +39,7 @@ const SubmitPostBox = () => {
         onChange={handleChangeMessage}
         onKeyDown={(e) => {
           if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
-            handleSubmit();
+            handleSubmit(e);
           }
         }}
         id="input-post"
@@ -46,7 +51,12 @@ const SubmitPostBox = () => {
         sx={{ margin: 1 }}
       />
       <Box sx={{ display: "flex", alignItems: "end", margin: 1 }}>
-        <IconButton aria-label="send post" onClick={handleSubmit}>
+        <IconButton
+          aria-label="send post"
+          onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+            handleSubmit(e)
+          }
+        >
           <SendIcon />
         </IconButton>
       </Box>
