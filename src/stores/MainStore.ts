@@ -2,6 +2,8 @@ import { IMainStore, IMainStoreService, IUser, IUserPost } from "../interfaces";
 import * as mobx from "mobx";
 import moment from "moment";
 import { MainStoreService } from "../srvices/mainStore.service";
+import axios from "axios";
+import { log } from "console";
 
 export class MainStore implements IMainStore {
   private mainStoreService: IMainStoreService;
@@ -47,11 +49,19 @@ export class MainStore implements IMainStore {
   }
 
   @mobx.action
-  async init() {
-    const me = await this.mainStoreService.getMe();
-    // const me = fetch("http://localhost:8080/api/json/message");
-    console.log(me);
+  hasName() {
+    return !!this.user.name;
   }
+
+  @mobx.action
+  setUserName(fullName: string) {
+    mobx.runInAction(() => {
+      this.user.name = fullName;
+    });
+  }
+
+  @mobx.action
+  async init() {}
 
   sendMessage(msg: string) {
     const newMessages = {
@@ -64,10 +74,11 @@ export class MainStore implements IMainStore {
     };
 
     this.wallMessages.unshift(newMessages);
-    this.mainStoreService.postMessage({
-      id: this.user.id,
-      author: this.user.name,
-      message: msg,
-    });
+
+    // this.mainStoreService.postMessage({
+    //   id: this.user.id,
+    //   author: this.user.name,
+    //   message: msg,
+    // });
   }
 }
