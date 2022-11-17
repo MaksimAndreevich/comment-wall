@@ -1,8 +1,11 @@
-import { IMainStore, IUser, IUserPost } from "../interfaces";
+import { IMainStore, IMainStoreService, IUser, IUserPost } from "../interfaces";
 import * as mobx from "mobx";
 import moment from "moment";
+import { MainStoreService } from "../srvices/mainStore.service";
 
 export class MainStore implements IMainStore {
+  private mainStoreService: IMainStoreService;
+
   user: IUser = {
     id: 0,
     name: "",
@@ -39,11 +42,15 @@ export class MainStore implements IMainStore {
   ];
 
   constructor() {
+    this.mainStoreService = new MainStoreService();
     mobx.makeAutoObservable(this);
   }
 
-  init() {
-    // get data from server
+  @mobx.action
+  async init() {
+    const me = await this.mainStoreService.getMe();
+    // const me = fetch("http://localhost:8080/api/json/message");
+    console.log(me);
   }
 
   sendMessage(msg: string) {
@@ -57,5 +64,10 @@ export class MainStore implements IMainStore {
     };
 
     this.wallMessages.unshift(newMessages);
+    this.mainStoreService.postMessage({
+      id: this.user.id,
+      author: this.user.name,
+      message: msg,
+    });
   }
 }
