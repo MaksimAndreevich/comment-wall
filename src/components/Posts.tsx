@@ -7,7 +7,7 @@ const Posts = observer(() => {
   const store = useStore("mainStore");
 
   return (
-    <Box sx={{ marginTop: 1, overflow: "auto", maxHeight: "90vh" }}>
+    <Box sx={{ marginTop: 1, overflow: "auto", maxHeight: "90vh", padding: 1 }}>
       {store.wallMessages.map(
         ({ authorName, authorSurname, timestamp, message, avatar }, i) => {
           return (
