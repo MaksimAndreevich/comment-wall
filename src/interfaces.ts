@@ -1,35 +1,58 @@
 import { AxiosResponse } from "axios";
 
 export interface IUser {
-  id: number;
+  id: string;
   name: string;
-  avatar: string;
+  surname: string;
+  image: string;
 }
 
-export interface IUserPost {
-  id: number;
-  author: string;
-  avatar: string;
+export interface IUserMessage {
+  authorId: string;
+  authorName?: string;
+  authorSurname?: string;
+  avatar?: string;
+  messageId?: number;
   timestamp: number;
   message: string;
   replyTo: number | null;
 }
 
 export interface IMainStore {
-  wallMessages: IUserPost[];
+  wallMessages: IUserMessage[];
 
   init: () => void;
+  getFullName: () => string;
 }
 
 export interface IMainStoreService {
-  getUsers: () => Promise<AxiosResponse<any, any>>;
-  getMe: () => Promise<AxiosResponse<any, any>>;
-  getMessages: () => Promise<AxiosResponse<any, any>>;
+  getUsers: () => Promise<IGetResponseUsers>;
+  getMe: () => Promise<IGetResponseMe>;
+  getMessages: () => Promise<IGetResponseMessage>;
   postMessage: (body: IPostBody) => Promise<AxiosResponse<any, any>>;
 }
 
-export interface IPostBody {
+export interface IGetResponseMe {
+  me: { id: string };
+}
+
+export interface IGetResponseUsers {
+  users: IUser[];
+}
+
+export interface IGetResponseMessage {
+  messages: IGetResponseMessage[];
+}
+
+export interface IGetResponseMessage {
+  author: string;
   id: number;
+  message: string;
+  replyTo: number;
+  timestamp: number;
+}
+
+export interface IPostBody {
   author: string;
   message: string;
 }

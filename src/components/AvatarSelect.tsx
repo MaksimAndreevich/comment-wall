@@ -7,15 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import { useStore } from "../stores";
 import { observer } from "mobx-react-lite";
-
-const avatarsList: string[] = [
-  "/static/avatars/112.png",
-  "/static/avatars/0158.png",
-  "/static/avatars/231.png",
-  "/static/avatars/488.png",
-  "/static/avatars/5833.png",
-  "/static/avatars/5903.png",
-];
+import { AVATAR_LIST } from "../utils/constants";
 
 export const AvatarSelect = observer(() => {
   const store = useStore("mainStore");
@@ -44,7 +36,7 @@ export const AvatarSelect = observer(() => {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 56, height: 56 }} src={store.user.avatar} />
+            <Avatar sx={{ width: 56, height: 56 }} src={store.user.image} />
           </IconButton>
         </Tooltip>
       </Box>
@@ -83,7 +75,7 @@ export const AvatarSelect = observer(() => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        {avatarsList.map((avatar, i) => {
+        {AVATAR_LIST.map((avatar, i) => {
           return (
             <MenuItem
               key={i}

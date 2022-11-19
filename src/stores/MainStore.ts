@@ -1,47 +1,26 @@
-import { IMainStore, IMainStoreService, IUser, IUserPost } from "../interfaces";
+import {
+  IMainStore,
+  IMainStoreService,
+  IUser,
+  IUserMessage,
+} from "../interfaces";
 import * as mobx from "mobx";
 import moment from "moment";
 import { MainStoreService } from "../srvices/mainStore.service";
-import axios from "axios";
-import { log } from "console";
 
 export class MainStore implements IMainStore {
   private mainStoreService: IMainStoreService;
 
   user: IUser = {
-    id: 0,
+    id: "",
     name: "",
-    avatar: "/static/avatars/112.png",
+    surname: "",
+    image: "/static/avatars/112.png",
   };
 
-  wallMessages: IUserPost[] = [
-    {
-      id: 0,
-      replyTo: 1,
-      author: "Alexandr Ivanov",
-      avatar: "/static/avatars/0158.png",
-      timestamp: moment().valueOf(),
-      message: "Я оставил тут комментарий",
-    },
-    {
-      id: 1,
-      replyTo: 1,
-      author: "Alexandr Ivanov",
-      avatar: "/static/avatars/5903.png",
-      timestamp: moment().valueOf(),
-      message:
-        "comment: Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sapiente, blanditiis dolore. Neque necessitatibus omnis voluptatibus quo ratione fuga, possimus consectetur eos harum consequuntur reiciendis, laboriosam cumque aut aliquam perspiciatis! Suscipit.,",
-    },
-    {
-      id: 2,
-      replyTo: 1,
-      author: "Alexandr Ivanov",
-      avatar: "/static/avatars/5833.png",
-      timestamp: moment().valueOf(),
-      message:
-        "Lore Я оставил тут комментарий Я оставил тут комментарийЯ оставил тут комментарийЯ оставил тут комментарийЯ оставил тут комментарийЯ оставил тут комментарий",
-    },
-  ];
+  users: IUser[] = [];
+
+  wallMessages: IUserMessage[] = [];
 
   constructor() {
     this.mainStoreService = new MainStoreService();
@@ -63,29 +42,94 @@ export class MainStore implements IMainStore {
   @mobx.action
   setUserAvatar(avatar: string) {
     mobx.runInAction(() => {
-      this.user.avatar = avatar;
+      this.user.image = avatar;
     });
   }
 
   @mobx.action
-  async init() {}
+  async init() {
+    const { me } = await this.mainStoreService.getMe();
+    const { messages } = await this.mainStoreService.getMessages();
+    const { users } = await this.mainStoreService.getUsers();
 
+    users.forEach(({ id, name, surname, image }) => {
+      this.users.push({
+        id: id,
+        image: image,
+        name: this.decoding(name),
+        surname: this.decoding(surname),
+      });
+    });
+
+    const findMe = this.findAuthor(me.id);
+    if (findMe) {
+      mobx.runInAction(() => {
+        this.user = findMe;
+        this.user.image = this.convertImagePath(this.user.image);
+      });
+    }
+
+    messages.forEach(({ message, author, id, replyTo, timestamp }) => {
+      const creator = this.findAuthor(author);
+
+      mobx.runInAction(() => {
+        this.wallMessages.unshift({
+          messageId: id,
+          authorId: author,
+          authorName: creator?.name,
+          authorSurname: creator?.surname,
+          replyTo: replyTo,
+          message: this.decoding(message),
+          timestamp: timestamp,
+          avatar: this.convertImagePath(creator?.image),
+        });
+      });
+    });
+  }
+
+  @mobx.action
   sendMessage(msg: string) {
     const newMessages = {
-      id: this.user.id,
+      authorId: this.user.id,
       replyTo: null,
-      author: this.user.name,
-      avatar: this.user.avatar,
+      fullName: this.user.name,
+      image: this.user.image,
       timestamp: moment().valueOf(),
       message: msg,
+      avatar: this.user.image,
     };
 
     this.wallMessages.unshift(newMessages);
 
-    // this.mainStoreService.postMessage({
-    //   id: this.user.id,
-    //   author: this.user.name,
-    //   message: msg,
-    // });
+    this.mainStoreService.postMessage({
+      author: this.user.id,
+      message: msg,
+    });
+  }
+
+  decoding(str: string) {
+    const result = decodeURI(str);
+    return result;
+  }
+
+  findAuthor(authorId: string): IUser | undefined {
+    let author;
+    this.users.forEach(({ id }, i) => {
+      if (id === authorId) {
+        author = this.users[i];
+      }
+    });
+
+    return author;
+  }
+
+  convertImagePath(path: string = "") {
+    const arr = path.split("/");
+    const fileName = arr[arr.length - 1];
+    return `/static/avatars/${fileName}`;
+  }
+
+  getFullName() {
+    return `${this.user.name} ${this.user.surname}`;
   }
 }

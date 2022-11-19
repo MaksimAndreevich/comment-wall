@@ -2,8 +2,9 @@ import { Box, TextField, Avatar, IconButton, Paper } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { useStore } from "../stores";
 import { FormEvent, useState } from "react";
+import { observer } from "mobx-react-lite";
 
-const SubmitPostBox = () => {
+const SubmitPostBox = observer(() => {
   const store = useStore("mainStore");
   const [message, setMessage] = useState("");
 
@@ -29,7 +30,11 @@ const SubmitPostBox = () => {
       component={"form"}
       onSubmit={handleSubmit}
     >
-      <Avatar alt="Remy Sharp" src={store.user.avatar} sx={{ margin: 1 }} />
+      <Avatar
+        alt={store.getFullName()}
+        src={store.user.image}
+        sx={{ margin: 1 }}
+      />
       <TextField
         value={message}
         onChange={handleChangeMessage}
@@ -58,6 +63,6 @@ const SubmitPostBox = () => {
       </Box>
     </Paper>
   );
-};
+});
 
 export default SubmitPostBox;

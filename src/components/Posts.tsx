@@ -8,17 +8,21 @@ const Posts = observer(() => {
 
   return (
     <Box sx={{ marginTop: 1 }}>
-      {store.wallMessages.map(({ author, timestamp, message, avatar }, i) => {
-        return (
-          <Post
-            key={i}
-            author={author}
-            timestamp={timestamp}
-            message={message}
-            avatar={avatar}
-          />
-        );
-      })}
+      {store.wallMessages.map(
+        ({ authorName, authorSurname, timestamp, message, avatar }, i) => {
+          return (
+            <Post
+              key={i}
+              author={
+                authorName ? `${authorName} ${authorSurname}` : "Anonymous User"
+              }
+              timestamp={timestamp}
+              message={message}
+              avatar={avatar || null}
+            />
+          );
+        }
+      )}
     </Box>
   );
 });
