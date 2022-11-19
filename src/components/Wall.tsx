@@ -7,6 +7,7 @@ const Wall = () => {
     <Box
       sx={{
         width: "60%",
+        padding: 1,
       }}
     >
       <SubmitPostBox />

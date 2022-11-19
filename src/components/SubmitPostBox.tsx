@@ -26,7 +26,7 @@ const SubmitPostBox = observer(() => {
   return (
     <Paper
       elevation={3}
-      sx={{ display: "flex" }}
+      sx={{ display: "flex", maxHeight: "10vh" }}
       component={"form"}
       onSubmit={handleSubmit}
     >
