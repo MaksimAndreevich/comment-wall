@@ -29,11 +29,7 @@ const SubmitPostBox = () => {
       component={"form"}
       onSubmit={handleSubmit}
     >
-      <Avatar
-        alt="Remy Sharp"
-        src="/static/avatars/112.png"
-        sx={{ margin: 1 }}
-      />
+      <Avatar alt="Remy Sharp" src={store.user.avatar} sx={{ margin: 1 }} />
       <TextField
         value={message}
         onChange={handleChangeMessage}

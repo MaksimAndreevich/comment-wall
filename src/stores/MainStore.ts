@@ -11,7 +11,7 @@ export class MainStore implements IMainStore {
   user: IUser = {
     id: 0,
     name: "",
-    avatar: "",
+    avatar: "/static/avatars/112.png",
   };
 
   wallMessages: IUserPost[] = [
@@ -61,6 +61,13 @@ export class MainStore implements IMainStore {
   }
 
   @mobx.action
+  setUserAvatar(avatar: string) {
+    mobx.runInAction(() => {
+      this.user.avatar = avatar;
+    });
+  }
+
+  @mobx.action
   async init() {}
 
   sendMessage(msg: string) {
@@ -68,7 +75,7 @@ export class MainStore implements IMainStore {
       id: this.user.id,
       replyTo: null,
       author: this.user.name,
-      avatar: "/static/avatars/0158.png",
+      avatar: this.user.avatar,
       timestamp: moment().valueOf(),
       message: msg,
     };
