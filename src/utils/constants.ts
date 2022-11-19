@@ -14,10 +14,10 @@ export const REQUESTS = {
 };
 
 export const AVATAR_LIST: string[] = [
-  "/static/avatars/112.png",
-  "/static/avatars/0158.png",
-  "/static/avatars/231.png",
-  "/static/avatars/488.png",
-  "/static/avatars/5833.png",
-  "/static/avatars/5903.png",
+  "/file/112.png",
+  "/file/0158.png",
+  "/file/231.png",
+  "/file/488.png",
+  "/file/5833.png",
+  "/file//5903.png",
 ];

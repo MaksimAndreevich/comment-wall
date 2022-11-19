@@ -15,7 +15,7 @@ export class MainStore implements IMainStore {
     id: "",
     name: "",
     surname: "",
-    image: "/static/avatars/112.png",
+    image: "/file/112.png",
   };
 
   users: IUser[] = [];
@@ -65,7 +65,6 @@ export class MainStore implements IMainStore {
     if (findMe) {
       mobx.runInAction(() => {
         this.user = findMe;
-        this.user.image = this.convertImagePath(this.user.image);
       });
     }
 
@@ -81,7 +80,7 @@ export class MainStore implements IMainStore {
           replyTo: replyTo,
           message: this.decoding(message),
           timestamp: timestamp,
-          avatar: this.convertImagePath(creator?.image),
+          avatar: creator?.image,
         });
       });
     });
@@ -122,12 +121,6 @@ export class MainStore implements IMainStore {
     });
 
     return author;
-  }
-
-  convertImagePath(path: string = "") {
-    const arr = path.split("/");
-    const fileName = arr[arr.length - 1];
-    return `/static/avatars/${fileName}`;
   }
 
   getFullName() {

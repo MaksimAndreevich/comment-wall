@@ -8,6 +8,9 @@ const Wall = () => {
       sx={{
         width: "60%",
         padding: 1,
+        display: "flex",
+        flexDirection: "column",
+        maxHeight: "100vh",
       }}
     >
       <SubmitPostBox />
