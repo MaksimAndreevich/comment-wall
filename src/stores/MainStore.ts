@@ -92,7 +92,8 @@ export class MainStore implements IMainStore {
     const newMessages = {
       authorId: this.user.id,
       replyTo: null,
-      fullName: this.user.name,
+      authorName: this.user.name,
+      authorSurname: this.user.surname,
       image: this.user.image,
       timestamp: moment().valueOf(),
       message: msg,
