@@ -14,10 +14,11 @@ export interface IUserMessage {
   authorName?: string;
   authorSurname?: string;
   avatar?: string;
-  messageId?: number;
+  messageId: number;
   timestamp: number;
   message: string;
-  replyTo: number;
+  replyTo: number | null;
+  like: boolean;
 }
 
 export interface IMainStore {
@@ -25,8 +26,9 @@ export interface IMainStore {
 
   init: () => void;
   getFullName: () => string;
-  findReplyMessage: (replyMsgId: number) => IUserMessage | undefined;
+  findMessage: (msgId: number) => IUserMessage | undefined;
   setReplyPost: (msgId: number) => void;
+  toggleLikeMessage: (messageId: number) => void;
 }
 
 export interface IMainStoreService {

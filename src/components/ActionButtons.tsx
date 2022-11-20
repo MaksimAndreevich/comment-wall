@@ -2,14 +2,23 @@ import { Stack, IconButton } from "@mui/material";
 import ReplyIcon from "@mui/icons-material/Reply";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { useState } from "react";
+import { useStore } from "../stores";
 
 interface IActionButtonsProps {
   handleReply: () => void;
+  messageId: number;
+  like: boolean;
 }
 
-const ActionButtons = ({ handleReply }: IActionButtonsProps) => {
-  const [like, setLike] = useState(false);
+const ActionButtons = ({
+  handleReply,
+  messageId,
+  like,
+}: IActionButtonsProps) => {
+  const store = useStore("mainStore");
+  const handleLike = () => {
+    store.toggleLikeMessage(messageId);
+  };
 
   return (
     <Stack
@@ -20,13 +29,7 @@ const ActionButtons = ({ handleReply }: IActionButtonsProps) => {
       <IconButton aria-label="reply to" onClick={handleReply}>
         <ReplyIcon fontSize="small" />
       </IconButton>
-      <IconButton
-        aria-label="like"
-        color="primary"
-        onClick={() => {
-          setLike(!like);
-        }}
-      >
+      <IconButton aria-label="like" color="primary" onClick={handleLike}>
         {!like ? (
           <FavoriteBorderIcon fontSize="small" />
         ) : (

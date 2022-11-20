@@ -8,7 +8,7 @@ interface ReplyToProps {
 
 const ReplyTo = ({ replyTo }: ReplyToProps) => {
   const store = useStore("mainStore");
-  const replyMessage = store.findReplyMessage(replyTo);
+  const replyMessage = store.findMessage(replyTo);
 
   useEffect(() => {}, []);
 

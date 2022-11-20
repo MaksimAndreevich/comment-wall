@@ -83,6 +83,7 @@ export class MainStore implements IMainStore {
           message: this.decoding(message),
           timestamp: timestamp,
           avatar: creator?.image,
+          like: false,
         });
       });
     });
@@ -93,13 +94,14 @@ export class MainStore implements IMainStore {
     const newMessages = {
       authorId: this.user.id,
       messageId: this.wallMessages.length,
-      replyTo: this.user.replyPost || 0,
+      replyTo: this.user.replyPost,
       authorName: this.user.name,
       authorSurname: this.user.surname,
       image: this.user.image,
       timestamp: moment().valueOf(),
       message: msg,
       avatar: this.user.image,
+      like: false,
     };
 
     this.wallMessages.unshift(newMessages);
@@ -131,10 +133,8 @@ export class MainStore implements IMainStore {
     return author;
   }
 
-  findReplyMessage(replyMsgId: number) {
-    const message = this.wallMessages.find(
-      (msg) => replyMsgId === msg.messageId
-    );
+  findMessage(msgId: number) {
+    const message = this.wallMessages.find((msg) => msgId === msg.messageId);
     return message;
   }
 
@@ -143,7 +143,7 @@ export class MainStore implements IMainStore {
   }
 
   setReplyPost(msgId: number) {
-    const replyMessage = this.findReplyMessage(msgId);
+    const replyMessage = this.findMessage(msgId);
     let message = replyMessage?.message;
     if (message && message?.length > 50) {
       message = message.substring(0, 100) + "...";
@@ -159,5 +159,14 @@ export class MainStore implements IMainStore {
       this.user.replyPost = null;
       this.user.replyForMessage = "";
     });
+  }
+
+  toggleLikeMessage(messageId: number) {
+    const message = this.findMessage(messageId);
+    if (message) {
+      mobx.runInAction(() => {
+        message.like = !message.like;
+      });
+    }
   }
 }

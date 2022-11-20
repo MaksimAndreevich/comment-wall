@@ -10,8 +10,9 @@ interface IPostProps {
   timestamp: number;
   message: string;
   avatar: string | null;
-  replyTo: number;
-  messageId: number | undefined;
+  replyTo: number | null;
+  messageId: number;
+  like: boolean;
 }
 
 const Post = ({
@@ -21,6 +22,7 @@ const Post = ({
   avatar,
   replyTo,
   messageId,
+  like,
 }: IPostProps) => {
   const store = useStore("mainStore");
   const handleReply = () => {
@@ -49,7 +51,12 @@ const Post = ({
         >
           {message}
         </Typography>
-        <ActionButtons handleReply={handleReply} />
+        <ActionButtons
+          handleReply={handleReply}
+          key={timestamp + author}
+          like={like}
+          messageId={messageId}
+        />
       </Box>
     </Paper>
   );

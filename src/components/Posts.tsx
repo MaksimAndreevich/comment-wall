@@ -26,6 +26,7 @@ const Posts = observer(() => {
               avatar,
               replyTo,
               messageId,
+              like,
             },
             i
           ) => {
@@ -42,6 +43,7 @@ const Posts = observer(() => {
                 messageId={messageId}
                 avatar={avatar || null}
                 replyTo={replyTo}
+                like={like}
               />
             );
           }
