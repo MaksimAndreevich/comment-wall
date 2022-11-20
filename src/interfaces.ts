@@ -5,6 +5,8 @@ export interface IUser {
   name: string;
   surname: string;
   image: string;
+  replyPost: number | null;
+  replyForMessage?: string;
 }
 
 export interface IUserMessage {
@@ -24,6 +26,7 @@ export interface IMainStore {
   init: () => void;
   getFullName: () => string;
   findReplyMessage: (replyMsgId: number) => IUserMessage | undefined;
+  setReplyPost: (msgId: number) => void;
 }
 
 export interface IMainStoreService {
@@ -56,5 +59,5 @@ export interface IGetResponseMessage {
 export interface IPostBody {
   author: string;
   message: string;
-  replyTo: number;
+  replyTo: number | null;
 }

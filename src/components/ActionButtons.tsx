@@ -4,7 +4,11 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useState } from "react";
 
-const ActionButtons = () => {
+interface IActionButtonsProps {
+  handleReply: () => void;
+}
+
+const ActionButtons = ({ handleReply }: IActionButtonsProps) => {
   const [like, setLike] = useState(false);
 
   return (
@@ -13,7 +17,7 @@ const ActionButtons = () => {
       spacing={1}
       sx={{ justifyContent: "flex-end", alignItems: "flex-end" }}
     >
-      <IconButton aria-label="reply to">
+      <IconButton aria-label="reply to" onClick={handleReply}>
         <ReplyIcon fontSize="small" />
       </IconButton>
       <IconButton

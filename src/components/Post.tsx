@@ -1,5 +1,6 @@
 import { Box, Paper, Avatar, Typography } from "@mui/material";
 import moment from "moment";
+import { useStore } from "../stores";
 import { AVATAR_LIST } from "../utils/constants";
 import ActionButtons from "./ActionButtons";
 import ReplyTo from "./ReplyTo";
@@ -10,9 +11,22 @@ interface IPostProps {
   message: string;
   avatar: string | null;
   replyTo: number;
+  messageId: number | undefined;
 }
 
-const Post = ({ author, timestamp, message, avatar, replyTo }: IPostProps) => {
+const Post = ({
+  author,
+  timestamp,
+  message,
+  avatar,
+  replyTo,
+  messageId,
+}: IPostProps) => {
+  const store = useStore("mainStore");
+  const handleReply = () => {
+    if (messageId === undefined) return;
+    store.setReplyPost(messageId);
+  };
   return (
     <Paper elevation={3}>
       <Box sx={{ display: "flex" }}>
@@ -26,7 +40,7 @@ const Post = ({ author, timestamp, message, avatar, replyTo }: IPostProps) => {
           <Typography sx={{ fontSize: 12 }}>
             {moment(timestamp).format("MMMM Do YYYY, H:mm:ss")}
           </Typography>
-          {replyTo ? <ReplyTo replyTo={replyTo} /> : null}
+          {replyTo !== null ? <ReplyTo replyTo={replyTo} /> : null}
         </Box>
       </Box>
       <Box sx={{ display: "flex", justifyContent: "space-between", margin: 1 }}>
@@ -35,7 +49,7 @@ const Post = ({ author, timestamp, message, avatar, replyTo }: IPostProps) => {
         >
           {message}
         </Typography>
-        <ActionButtons />
+        <ActionButtons handleReply={handleReply} />
       </Box>
     </Paper>
   );

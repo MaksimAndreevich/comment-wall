@@ -15,7 +15,8 @@ export class MainStore implements IMainStore {
     id: "",
     name: "",
     surname: "",
-    image: "/file/112.png",
+    image: "",
+    replyPost: null,
   };
 
   users: IUser[] = [];
@@ -58,6 +59,7 @@ export class MainStore implements IMainStore {
         image: image,
         name: this.decoding(name),
         surname: this.decoding(surname),
+        replyPost: null,
       });
     });
 
@@ -87,10 +89,11 @@ export class MainStore implements IMainStore {
   }
 
   @mobx.action
-  sendMessage(msg: string, replyTo: number = 0) {
+  sendMessage(msg: string) {
     const newMessages = {
       authorId: this.user.id,
-      replyTo: replyTo,
+      messageId: this.wallMessages.length,
+      replyTo: this.user.replyPost || 0,
       authorName: this.user.name,
       authorSurname: this.user.surname,
       image: this.user.image,
@@ -104,7 +107,11 @@ export class MainStore implements IMainStore {
     this.mainStoreService.postMessage({
       author: this.user.id,
       message: msg,
-      replyTo: replyTo,
+      replyTo: this.user.replyPost,
+    });
+
+    mobx.runInAction(() => {
+      this.clearReplyTo();
     });
   }
 
@@ -133,5 +140,24 @@ export class MainStore implements IMainStore {
 
   getFullName() {
     return `${this.user.name} ${this.user.surname}`;
+  }
+
+  setReplyPost(msgId: number) {
+    const replyMessage = this.findReplyMessage(msgId);
+    let message = replyMessage?.message;
+    if (message && message?.length > 50) {
+      message = message.substring(0, 100) + "...";
+    }
+    mobx.runInAction(() => {
+      this.user.replyPost = msgId;
+      this.user.replyForMessage = message;
+    });
+  }
+
+  clearReplyTo() {
+    mobx.runInAction(() => {
+      this.user.replyPost = null;
+      this.user.replyForMessage = "";
+    });
   }
 }
