@@ -87,10 +87,10 @@ export class MainStore implements IMainStore {
   }
 
   @mobx.action
-  sendMessage(msg: string) {
+  sendMessage(msg: string, replyTo: number = 0) {
     const newMessages = {
       authorId: this.user.id,
-      replyTo: null,
+      replyTo: replyTo,
       authorName: this.user.name,
       authorSurname: this.user.surname,
       image: this.user.image,
@@ -104,11 +104,12 @@ export class MainStore implements IMainStore {
     this.mainStoreService.postMessage({
       author: this.user.id,
       message: msg,
+      replyTo: replyTo,
     });
   }
 
   decoding(str: string) {
-    const result = decodeURI(str);
+    const result = decodeURIComponent(str);
     return result;
   }
 
@@ -121,6 +122,13 @@ export class MainStore implements IMainStore {
     });
 
     return author;
+  }
+
+  findReplyMessage(replyMsgId: number) {
+    const message = this.wallMessages.find(
+      (msg) => replyMsgId === msg.messageId
+    );
+    return message;
   }
 
   getFullName() {

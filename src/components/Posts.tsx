@@ -9,7 +9,10 @@ const Posts = observer(() => {
   return (
     <Box sx={{ marginTop: 1, overflow: "auto", padding: 1, flexGrow: 1 }}>
       {store.wallMessages.map(
-        ({ authorName, authorSurname, timestamp, message, avatar }, i) => {
+        (
+          { authorName, authorSurname, timestamp, message, avatar, replyTo },
+          i
+        ) => {
           return (
             <Post
               key={i}
@@ -19,6 +22,7 @@ const Posts = observer(() => {
               timestamp={timestamp}
               message={message}
               avatar={avatar || null}
+              replyTo={replyTo}
             />
           );
         }

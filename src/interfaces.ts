@@ -15,7 +15,7 @@ export interface IUserMessage {
   messageId?: number;
   timestamp: number;
   message: string;
-  replyTo: number | null;
+  replyTo: number;
 }
 
 export interface IMainStore {
@@ -23,6 +23,7 @@ export interface IMainStore {
 
   init: () => void;
   getFullName: () => string;
+  findReplyMessage: (replyMsgId: number) => IUserMessage | undefined;
 }
 
 export interface IMainStoreService {
@@ -55,4 +56,5 @@ export interface IGetResponseMessage {
 export interface IPostBody {
   author: string;
   message: string;
+  replyTo: number;
 }
