@@ -1,22 +1,23 @@
 import { Box } from "@mui/material";
 import { observer } from "mobx-react-lite";
-
 import Wall from "./Wall";
 
 const MainLayout = observer(() => {
   // if (!store.hasName()) return <Entrance />;
   return (
-    <Box
-      sx={{
-        height: "100%",
-        width: "100%",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "flex-start",
-      }}
-    >
-      <Wall />
-    </Box>
+    <>
+      <Box
+        sx={{
+          height: "100%",
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "flex-start",
+        }}
+      >
+        <Wall />
+      </Box>
+    </>
   );
 });
 
