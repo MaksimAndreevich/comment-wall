@@ -1,13 +1,13 @@
-import { Typography } from "@mui/material";
-import { useEffect } from "react";
-import { useStore } from "../stores";
+import { Typography } from '@mui/material';
+import { useEffect } from 'react';
+import { useStore } from '../stores';
 
 interface ReplyToProps {
   replyTo: number;
 }
 
 const ReplyTo = ({ replyTo }: ReplyToProps) => {
-  const store = useStore("mainStore");
+  const store = useStore('mainStore');
   const replyMessage = store.findMessage(replyTo);
 
   useEffect(() => {}, []);
@@ -17,7 +17,7 @@ const ReplyTo = ({ replyTo }: ReplyToProps) => {
       {replyMessage && (
         <Typography
           sx={{
-            fontStyle: "italic",
+            fontStyle: 'italic',
             fontSize: 12,
           }}
         >

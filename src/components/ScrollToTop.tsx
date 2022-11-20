@@ -1,6 +1,6 @@
-import useScrollTrigger from "@mui/material/useScrollTrigger";
-import Box from "@mui/material/Box";
-import Fade from "@mui/material/Fade";
+import useScrollTrigger from '@mui/material/useScrollTrigger';
+import Box from '@mui/material/Box';
+import Fade from '@mui/material/Fade';
 
 interface Props {
   children: React.ReactElement;
@@ -19,18 +19,15 @@ function ScrollTop(props: Props) {
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (postsRef.current && postsRef.current.firstElementChild) {
       postsRef.current.firstElementChild.scrollIntoView({
-        block: "center",
-        behavior: "smooth",
+        block: 'center',
+        behavior: 'smooth',
       });
     }
   };
 
   return (
     <Fade in={trigger}>
-      <Box
-        onClick={handleClick}
-        sx={{ position: "fixed", bottom: 32, right: 32 }}
-      >
+      <Box onClick={handleClick} sx={{ position: 'fixed', bottom: 32, right: 32 }}>
         {children}
       </Box>
     </Fade>

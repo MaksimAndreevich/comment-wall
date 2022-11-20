@@ -1,6 +1,6 @@
-import { IMainStoreService, IPostBody } from "../interfaces";
-import { REQUESTS } from "../utils/constants";
-import { doGetRequest, doPostRequest } from "../utils/helpers";
+import { IMainStoreService, IPostBody } from '../interfaces';
+import { REQUESTS } from '../utils/constants';
+import { doGetRequest, doPostRequest } from '../utils/helpers';
 
 export class MainStoreService implements IMainStoreService {
   async getUsers() {
@@ -25,11 +25,9 @@ export class MainStoreService implements IMainStoreService {
   }
 
   async postMessage(body: IPostBody) {
-    const result = await doPostRequest(REQUESTS.POST_MESSAGE, body).catch(
-      (e) => {
-        console.log(e.message);
-      }
-    );
+    const result = await doPostRequest(REQUESTS.POST_MESSAGE, body).catch((e) => {
+      console.log(e.message);
+    });
     if (result) return result.data.answer;
   }
 }

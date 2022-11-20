@@ -1,21 +1,16 @@
-import {
-  IMainStore,
-  IMainStoreService,
-  IUser,
-  IUserMessage,
-} from "../interfaces";
-import * as mobx from "mobx";
-import moment from "moment";
-import { MainStoreService } from "../srvices/mainStore.service";
+import { IMainStore, IMainStoreService, IUser, IUserMessage } from '../interfaces';
+import * as mobx from 'mobx';
+import moment from 'moment';
+import { MainStoreService } from '../srvices/mainStore.service';
 
 export class MainStore implements IMainStore {
   private mainStoreService: IMainStoreService;
 
   user: IUser = {
-    id: "",
-    name: "",
-    surname: "",
-    image: "",
+    id: '',
+    name: '',
+    surname: '',
+    image: '',
     replyPost: null,
   };
 
@@ -146,7 +141,7 @@ export class MainStore implements IMainStore {
     const replyMessage = this.findMessage(msgId);
     let message = replyMessage?.message;
     if (message && message?.length > 50) {
-      message = message.substring(0, 100) + "...";
+      message = message.substring(0, 100) + '...';
     }
     mobx.runInAction(() => {
       this.user.replyPost = msgId;
@@ -157,7 +152,7 @@ export class MainStore implements IMainStore {
   clearReplyTo() {
     mobx.runInAction(() => {
       this.user.replyPost = null;
-      this.user.replyForMessage = "";
+      this.user.replyForMessage = '';
     });
   }
 

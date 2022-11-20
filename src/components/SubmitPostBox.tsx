@@ -1,34 +1,22 @@
-import {
-  Box,
-  TextField,
-  Avatar,
-  IconButton,
-  Paper,
-  Typography,
-} from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
-import { useStore } from "../stores";
-import { FormEvent, useState } from "react";
-import { observer } from "mobx-react-lite";
-import CloseIcon from "@mui/icons-material/Close";
+import { Box, TextField, Avatar, IconButton, Paper, Typography } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
+import { useStore } from '../stores';
+import { FormEvent, useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import CloseIcon from '@mui/icons-material/Close';
 
 const SubmitPostBox = observer(() => {
-  const store = useStore("mainStore");
-  const [message, setMessage] = useState("");
+  const store = useStore('mainStore');
+  const [message, setMessage] = useState('');
 
   const handleChangeMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value);
   };
 
-  const handleSubmit = (
-    e:
-      | FormEvent<HTMLFormElement>
-      | React.MouseEvent<HTMLButtonElement, MouseEvent>
-      | React.KeyboardEvent<HTMLDivElement>
-  ) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent> | React.KeyboardEvent<HTMLDivElement>) => {
     if (!message) return;
     store.sendMessage(message.trim());
-    setMessage("");
+    setMessage('');
   };
 
   const handleClearReplyTo = () => {
@@ -36,38 +24,26 @@ const SubmitPostBox = observer(() => {
   };
 
   return (
-    <Paper
-      elevation={3}
-      sx={{ display: "flex" }}
-      component={"form"}
-      onSubmit={handleSubmit}
-    >
-      <Avatar
-        alt={store.getFullName()}
-        src={store.user.image}
-        sx={{ margin: 1 }}
-      />
-      <Box sx={{ width: "100%", margin: 1 }}>
+    <Paper elevation={3} sx={{ display: 'flex' }} component={'form'} onSubmit={handleSubmit}>
+      <Avatar alt={store.getFullName()} src={store.user.image} sx={{ margin: 1 }} />
+      <Box sx={{ width: '100%', margin: 1 }}>
         {store.user.replyPost !== null ? (
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignContent: "flex-start",
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignContent: 'flex-start',
             }}
           >
             <Typography
               sx={{
-                fontStyle: "italic",
+                fontStyle: 'italic',
                 fontSize: 12,
               }}
             >
               Ответ на сообщение: {store.user.replyForMessage}
             </Typography>
-            <IconButton
-              aria-label="remove reply to"
-              onClick={handleClearReplyTo}
-            >
+            <IconButton aria-label="remove reply to" onClick={handleClearReplyTo}>
               <CloseIcon sx={{ fontSize: 16 }} />
             </IconButton>
           </Box>
@@ -76,7 +52,7 @@ const SubmitPostBox = observer(() => {
           value={message}
           onChange={handleChangeMessage}
           onKeyDown={(e) => {
-            if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
               handleSubmit(e);
             }
           }}
@@ -90,13 +66,8 @@ const SubmitPostBox = observer(() => {
         />
       </Box>
 
-      <Box sx={{ display: "flex", alignItems: "end", margin: 1 }}>
-        <IconButton
-          aria-label="send post"
-          onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-            handleSubmit(e)
-          }
-        >
+      <Box sx={{ display: 'flex', alignItems: 'end', margin: 1 }}>
+        <IconButton aria-label="send post" onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => handleSubmit(e)}>
           <SendIcon />
         </IconButton>
       </Box>

@@ -1,16 +1,16 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Avatar from "@mui/material/Avatar";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
-import { useStore } from "../stores";
-import { observer } from "mobx-react-lite";
-import { AVATAR_LIST } from "../utils/constants";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Avatar from '@mui/material/Avatar';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import { useStore } from '../stores';
+import { observer } from 'mobx-react-lite';
+import { AVATAR_LIST } from '../utils/constants';
 
 export const AvatarSelect = observer(() => {
-  const store = useStore("mainStore");
+  const store = useStore('mainStore');
   //TODO: e: type
   const handleChangeAvatar = (e: any) => {
     const { avatarPath } = e.currentTarget.dataset;
@@ -26,15 +26,15 @@ export const AvatarSelect = observer(() => {
   };
   return (
     <React.Fragment>
-      <Box sx={{ padding: 1, alignItems: "center", textAlign: "center" }}>
+      <Box sx={{ padding: 1, alignItems: 'center', textAlign: 'center' }}>
         <Tooltip title="Выбор аватара">
           <IconButton
             onClick={handleClick}
             size="large"
             sx={{ ml: 2 }}
-            aria-controls={open ? "account-menu" : undefined}
+            aria-controls={open ? 'account-menu' : undefined}
             aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
+            aria-expanded={open ? 'true' : undefined}
           >
             <Avatar sx={{ width: 56, height: 56 }} src={store.user.image} />
           </IconButton>
@@ -49,39 +49,35 @@ export const AvatarSelect = observer(() => {
         PaperProps={{
           elevation: 0,
           sx: {
-            overflow: "visible",
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+            overflow: 'visible',
+            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
             mt: 1.5,
-            "& .MuiAvatar-root": {
+            '& .MuiAvatar-root': {
               width: 32,
               height: 32,
               ml: -0.5,
               mr: 1,
             },
-            "&:before": {
+            '&:before': {
               content: '""',
-              display: "block",
-              position: "absolute",
+              display: 'block',
+              position: 'absolute',
               top: 0,
               right: 14,
               width: 10,
               height: 10,
-              bgcolor: "background.paper",
-              transform: "translateY(-50%) rotate(45deg)",
+              bgcolor: 'background.paper',
+              transform: 'translateY(-50%) rotate(45deg)',
               zIndex: 0,
             },
           },
         }}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         {AVATAR_LIST.map((avatar, i) => {
           return (
-            <MenuItem
-              key={i}
-              data-avatar-path={avatar}
-              onClick={handleChangeAvatar}
-            >
+            <MenuItem key={i} data-avatar-path={avatar} onClick={handleChangeAvatar}>
               <Avatar src={avatar} />
             </MenuItem>
           );

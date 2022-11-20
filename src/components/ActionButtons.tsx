@@ -1,8 +1,8 @@
-import { Stack, IconButton } from "@mui/material";
-import ReplyIcon from "@mui/icons-material/Reply";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import { useStore } from "../stores";
+import { Stack, IconButton } from '@mui/material';
+import ReplyIcon from '@mui/icons-material/Reply';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useStore } from '../stores';
 
 interface IActionButtonsProps {
   handleReply: () => void;
@@ -10,31 +10,19 @@ interface IActionButtonsProps {
   like: boolean;
 }
 
-const ActionButtons = ({
-  handleReply,
-  messageId,
-  like,
-}: IActionButtonsProps) => {
-  const store = useStore("mainStore");
+const ActionButtons = ({ handleReply, messageId, like }: IActionButtonsProps) => {
+  const store = useStore('mainStore');
   const handleLike = () => {
     store.toggleLikeMessage(messageId);
   };
 
   return (
-    <Stack
-      direction="row"
-      spacing={1}
-      sx={{ justifyContent: "flex-end", alignItems: "flex-end" }}
-    >
+    <Stack direction="row" spacing={1} sx={{ justifyContent: 'flex-end', alignItems: 'flex-end' }}>
       <IconButton aria-label="reply to" onClick={handleReply}>
         <ReplyIcon fontSize="small" />
       </IconButton>
       <IconButton aria-label="like" color="primary" onClick={handleLike}>
-        {!like ? (
-          <FavoriteBorderIcon fontSize="small" />
-        ) : (
-          <FavoriteIcon fontSize="small" />
-        )}
+        {!like ? <FavoriteBorderIcon fontSize="small" /> : <FavoriteIcon fontSize="small" />}
       </IconButton>
     </Stack>
   );
