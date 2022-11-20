@@ -11,6 +11,7 @@ const Wall = () => {
         display: "flex",
         flexDirection: "column",
         maxHeight: "100vh",
+        boxSizing: "border-box",
       }}
     >
       <SubmitPostBox />
