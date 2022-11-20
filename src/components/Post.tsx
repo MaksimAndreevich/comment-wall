@@ -1,6 +1,7 @@
 import { Box, Paper, Avatar, Typography } from "@mui/material";
 import moment from "moment";
 import { AVATAR_LIST } from "../utils/constants";
+import ActionButtons from "./ActionButtons";
 import ReplyTo from "./ReplyTo";
 
 interface IPostProps {
@@ -28,11 +29,14 @@ const Post = ({ author, timestamp, message, avatar, replyTo }: IPostProps) => {
           {replyTo ? <ReplyTo replyTo={replyTo} /> : null}
         </Box>
       </Box>
-      <Typography
-        sx={{ margin: 1, whiteSpace: "pre-wrap", overflowWrap: "break-word" }}
-      >
-        {message}
-      </Typography>
+      <Box sx={{ display: "flex", justifyContent: "space-between", margin: 1 }}>
+        <Typography
+          sx={{ margin: 1, whiteSpace: "pre-wrap", overflowWrap: "break-word" }}
+        >
+          {message}
+        </Typography>
+        <ActionButtons />
+      </Box>
     </Paper>
   );
 };
