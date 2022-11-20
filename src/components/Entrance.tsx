@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useStore } from '../stores';
 import AvatarSelect from './AvatarSelect';
 
+// do not used.
 const Entrance = () => {
   const store = useStore('mainStore');
   const [firstName, setFirstName] = useState('');

@@ -9,6 +9,7 @@ import { useStore } from '../stores';
 import { observer } from 'mobx-react-lite';
 import { AVATAR_LIST } from '../utils/constants';
 
+// do not used.
 export const AvatarSelect = observer(() => {
   const store = useStore('mainStore');
   //TODO: e: type
