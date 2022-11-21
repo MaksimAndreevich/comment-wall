@@ -12,8 +12,8 @@ const Posts = observer(() => {
 
   return (
     <>
-      <Box ref={ref} sx={{ marginTop: 1, overflow: 'auto', padding: 1, flexGrow: 1 }}>
-        {store.wallMessages.map(({ authorName, authorSurname, timestamp, message, avatar, replyTo, messageId, like }, i) => {
+      <Box ref={ref} sx={{ marginTop: 1, overflow: 'auto', padding: 1, flexGrow: 1 }} id={'box_messages'}>
+        {store.wallMessages.map(({ authorName, authorSurname, timestamp, message, image, replyTo, messageId, like }, i) => {
           return (
             <Post
               key={i}
@@ -21,7 +21,7 @@ const Posts = observer(() => {
               timestamp={timestamp}
               message={message}
               messageId={messageId}
-              avatar={avatar || null}
+              avatar={image}
               replyTo={replyTo}
               like={like}
             />

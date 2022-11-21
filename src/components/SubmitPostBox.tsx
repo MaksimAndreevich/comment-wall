@@ -4,6 +4,7 @@ import { useStore } from '../stores';
 import { FormEvent, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import CloseIcon from '@mui/icons-material/Close';
+import { scrollToTop } from '../utils/helpers';
 
 const SubmitPostBox = observer(() => {
   const store = useStore('mainStore');
@@ -17,6 +18,7 @@ const SubmitPostBox = observer(() => {
     if (!message) return;
     store.sendMessage(message.trim());
     setMessage('');
+    scrollToTop();
   };
 
   const handleClearReplyTo = () => {

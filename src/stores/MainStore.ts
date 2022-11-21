@@ -1,7 +1,7 @@
 import { IMainStore, IMainStoreService, IUser, IUserMessage } from '../interfaces';
 import * as mobx from 'mobx';
 import moment from 'moment';
-import { MainStoreService } from '../srvices/mainStore.service';
+import { MainStoreService } from '../services/mainStore.service';
 
 export class MainStore implements IMainStore {
   private mainStoreService: IMainStoreService;
@@ -21,25 +21,6 @@ export class MainStore implements IMainStore {
   constructor() {
     this.mainStoreService = new MainStoreService();
     mobx.makeAutoObservable(this);
-  }
-
-  @mobx.action
-  hasName() {
-    return !!this.user.name;
-  }
-
-  @mobx.action
-  setUserName(fullName: string) {
-    mobx.runInAction(() => {
-      this.user.name = fullName;
-    });
-  }
-
-  @mobx.action
-  setUserAvatar(avatar: string) {
-    mobx.runInAction(() => {
-      this.user.image = avatar;
-    });
   }
 
   @mobx.action
@@ -67,6 +48,7 @@ export class MainStore implements IMainStore {
 
     messages.forEach(({ message, author, id, replyTo, timestamp }) => {
       const creator = this.findAuthor(author);
+      if (!creator) return;
 
       mobx.runInAction(() => {
         this.wallMessages.unshift({
@@ -77,7 +59,7 @@ export class MainStore implements IMainStore {
           replyTo: replyTo,
           message: this.decoding(message),
           timestamp: timestamp,
-          avatar: creator?.image,
+          image: creator?.image,
           like: false,
         });
       });
@@ -95,7 +77,6 @@ export class MainStore implements IMainStore {
       image: this.user.image,
       timestamp: moment().valueOf(),
       message: msg,
-      avatar: this.user.image,
       like: false,
     };
 
@@ -117,14 +98,8 @@ export class MainStore implements IMainStore {
     return result;
   }
 
-  findAuthor(authorId: string): IUser | undefined {
-    let author;
-    this.users.forEach(({ id }, i) => {
-      if (id === authorId) {
-        author = this.users[i];
-      }
-    });
-
+  findAuthor(authorId: string) {
+    const author = this.users.find((user) => user.id === authorId);
     return author;
   }
 

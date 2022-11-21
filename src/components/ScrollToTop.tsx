@@ -1,15 +1,14 @@
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
+import { scrollToTop } from '../utils/helpers';
 
-interface Props {
+interface IScrollTopProps {
   children: React.ReactElement;
   postsRef: React.MutableRefObject<HTMLElement | undefined>;
 }
 
-function ScrollTop(props: Props) {
-  const { children, postsRef } = props;
-
+const ScrollTop = ({ children, postsRef }: IScrollTopProps) => {
   const trigger = useScrollTrigger({
     target: postsRef.current,
     disableHysteresis: true,
@@ -17,12 +16,7 @@ function ScrollTop(props: Props) {
   });
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (postsRef.current && postsRef.current.firstElementChild) {
-      postsRef.current.firstElementChild.scrollIntoView({
-        block: 'center',
-        behavior: 'smooth',
-      });
-    }
+    if (postsRef.current) scrollToTop(postsRef.current);
   };
 
   return (
@@ -32,6 +26,6 @@ function ScrollTop(props: Props) {
       </Box>
     </Fade>
   );
-}
+};
 
 export default ScrollTop;

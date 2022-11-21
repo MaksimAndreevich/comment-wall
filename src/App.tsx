@@ -6,12 +6,11 @@ function App() {
   const store = useStore('mainStore');
 
   useEffect(() => {
-    async function init() {
+    const bootstrap = async () => {
       await store.init();
-    }
-    init();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    };
+    bootstrap();
+  });
 
   return (
     <>

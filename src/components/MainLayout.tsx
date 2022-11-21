@@ -3,7 +3,6 @@ import { observer } from 'mobx-react-lite';
 import Wall from './Wall';
 
 const MainLayout = observer(() => {
-  // if (!store.hasName()) return <Entrance />;
   return (
     <>
       <Box

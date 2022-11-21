@@ -17,10 +17,12 @@ interface IPostProps {
 
 const Post = ({ author, timestamp, message, avatar, replyTo, messageId, like }: IPostProps) => {
   const store = useStore('mainStore');
+
   const handleReply = () => {
-    if (messageId === undefined) return;
+    if (!messageId && messageId !== 0) return;
     store.setReplyPost(messageId);
   };
+
   return (
     <Paper elevation={3}>
       <Box sx={{ display: 'flex' }}>
